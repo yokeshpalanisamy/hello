@@ -295,9 +295,11 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       // Keep main workspace storage up to date
       localStorage.setItem("stackblitz-workspace-files", JSON.stringify(nextFiles));
       
-      // Save synchronously to the active project in history
+      // Save synchronously to the active project in history.
+      // Never persist edits into the shared default starter template so the
+      // "Welcome" root stays pristine for every new/reset session.
       const savedActiveId = localStorage.getItem("ai-builder-active-project-id") || "default-veo-gallery";
-      if (savedActiveId) {
+      if (savedActiveId && savedActiveId !== "default-veo-gallery") {
         setProjectHistory((prevHistory) => {
           let isChanged = false;
           const updatedHistory = prevHistory.map((item) => {
@@ -575,15 +577,15 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         }, true);
       });
 
-      window.__COMPILED_MODULES__ = ${modulesJson};
-      window.__RAW_FILES__ = ${rawFilesJson};
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <script type="application/json" id="__compiled_modules__">${modulesJson}</script>
+    <script type="application/json" id="__raw_files__">${rawFilesJson}</script>
     <script type="module">
-      const modules = window.__COMPILED_MODULES__;
-      const rawFiles = window.__RAW_FILES__;
+      const modules = JSON.parse(document.getElementById("__compiled_modules__").textContent);
+      const rawFiles = JSON.parse(document.getElementById("__raw_files__").textContent);
       const cache = {};
       const loadedLibs = {};
 
@@ -989,22 +991,30 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     const activePrompt = customPrompt !== undefined ? customPrompt : prompt;
     if (!activePrompt.trim() || isGenerating) return;
 
+    // Never edit the shared default starter template in place. If the user
+    // submits a prompt while on the default "Welcome" template (or with no real
+    // project selected), spin up a brand-new project so generated content stays
+    // isolated to its own project instead of leaking into the starter that all
+    // new/reset sessions fall back to.
+    const isDefaultProject = !activeProjectId || activeProjectId === "default-veo-gallery";
+    const effectiveIncremental = isIncremental && !isDefaultProject;
+
     setIsGenerating(true);
     setError(null);
-    if (!isIncremental) {
+    if (!effectiveIncremental) {
       setPreviewHtml(""); // dont show previous project preview
       setPreviewUrl("");
       setSelectedElement(null);
       setLatestPreviewError(null);
       setLogs([]);
-      addLog(`❯ gemini-3.5-flash: Recreating workspace using prompt "${activePrompt}"...`, "command");
+      addLog(`❯ gemini-2.5-flash: Recreating workspace using prompt "${activePrompt}"...`, "command");
     } else {
-      addLog(`❯ gemini-3.5-flash: Editing workspace with prompt "${activePrompt}"...`, "command");
+      addLog(`❯ gemini-2.5-flash: Editing workspace with prompt "${activePrompt}"...`, "command");
     }
     
     try {
       let generatedStructure;
-      if (isIncremental) {
+      if (effectiveIncremental) {
         const mappedFiles: Record<string, string> = {};
         Object.entries(files).forEach(([k, v]) => {
           mappedFiles[k] = (v as any).code;
@@ -1024,7 +1034,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 
         addLog("✔ Generation completed successfully! Injecting new workspace files.", "success");
         
-        if (!isIncremental) {
+        if (!effectiveIncremental) {
           // Add to history list with a clean NEW ID first
           const newId = Date.now().toString();
           const newHistoryItem: ProjectHistoryItem = {
@@ -1073,7 +1083,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         const keys = Object.keys(normalized);
         const appKey = keys.find(k => k.endsWith("App.tsx") || k.endsWith("App.js")) || keys[0];
         if (appKey) {
-          if (!isIncremental) {
+          if (!effectiveIncremental) {
             setOpenTabs([appKey]);
             setActiveFile(appKey);
           } else {
@@ -1102,7 +1112,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 
     setIsGenerating(true);
     setError(null);
-    addLog(`❯ gemini-3.5-flash: Editing selected <${selectedElement.tagName.toLowerCase()}> element with prompt: "${instruction}"...`, "command");
+    addLog(`❯ gemini-2.5-flash: Editing selected <${selectedElement.tagName.toLowerCase()}> element with prompt: "${instruction}"...`, "command");
 
     try {
       const mappedFiles: Record<string, string> = {};
