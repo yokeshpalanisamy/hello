@@ -100,65 +100,49 @@ const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefin
 
 const INITIAL_FILES: Record<string, { code: string }> = {
   "/src/App.tsx": {
-    code: `import React from "react";
-import { Sparkles, Compass, Cpu, Layers } from "lucide-react";
+    code: `import React, { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 export default function App() {
+  const [input, setInput] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      console.log("Build request:", input);
+      setInput("");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans flex flex-col justify-between">
-      {/* Navigation */}
-      <nav className="border-b border-neutral-900 bg-[#0f0f0f]/80 backdrop-blur px-6 py-4 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2 font-bold text-white tracking-tight">
-            <Sparkles className="w-5 h-5 text-indigo-400 fill-indigo-400" />
-            <span>Veo Gallery</span>
-          </div>
-          <div className="flex gap-6 text-sm text-neutral-400">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-900 to-purple-900 text-white font-sans flex flex-col items-center justify-center px-6 py-12">
+      {/* Announcement Badge */}
+      <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900/60 border border-slate-700 rounded-full text-white text-sm font-medium mb-12 backdrop-blur-sm hover:border-slate-600 transition-colors cursor-pointer group">
+        <span className="px-2 py-0.5 bg-blue-600 text-white text-xs font-bold rounded">NEW</span>
+        <span>Lovable apps now work in ChatGPT and Claude</span>
+        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+      </div>
 
-      {/* Hero Section */}
-      <main className="max-w-5xl mx-auto px-6 py-16 flex-1 flex flex-col items-center justify-center text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-400 text-xs font-semibold mb-6 animate-pulse">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Powered by WebContainer AI v3</span>
-        </div>
-        
-        <h1 className="text-5xl sm:text-6xl font-bold text-white mb-6 tracking-tight max-w-2xl leading-tight">
-          Recreate any interface, <span className="text-indigo-400">instantly</span>
-        </h1>
-        
-        <p className="text-neutral-400 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-          A high-performance sandboxed preview system running directly on the client side inside a virtualized WebContainer stack.
-        </p>
+      {/* Hero Heading */}
+      <h1 className="text-6xl sm:text-7xl font-black text-white mb-12 text-center max-w-2xl leading-tight text-balance">
+        Ready to build, Nantha?
+      </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8 max-w-4xl">
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Compass className="w-8 h-8 text-indigo-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Zero Latency</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Runs completely inside your browser with locally compiled ES modules.</p>
-          </div>
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Cpu className="w-8 h-8 text-emerald-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Vite Compiler</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Simulates Vite's blazing fast hot module replacement on the fly.</p>
-          </div>
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Layers className="w-8 h-8 text-pink-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Tailwind v4</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Full responsive styling powered by active JIT compilation.</p>
-          </div>
-        </div>
-      </main>
+      {/* Input Area */}
+      <form onSubmit={handleSubmit} className="w-full max-w-lg">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask Lovable to create..."
+          className="w-full px-6 py-4 bg-slate-900/50 border border-slate-700 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all backdrop-blur-sm"
+        />
+      </form>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-900 bg-[#0c0c0c] py-8 px-6 text-center text-xs text-neutral-600">
-        <p>© 2026 Veo 3 Gallery. Running on StackBlitz Client API.</p>
-      </footer>
+      <div className="absolute bottom-6 left-0 right-0 text-center text-xs text-slate-500">
+        © 2026 AI Web Builder. Running client-side Sandbox virtual compilation.
+      </div>
     </div>
   );
 }`
@@ -182,8 +166,43 @@ export default function App() {
   }
 };
 
+// Bump this whenever INITIAL_FILES (the starter template) changes so stale
+// cached copies in localStorage are discarded and the new template is shown.
+const TEMPLATE_VERSION = "welcome-v2";
+
+// Discards stale cached copies of the default starter session when the
+// template changes. Called once from the provider's state initializer (NOT at
+// module scope) so React Fast Refresh keeps working for this module.
+function runTemplateCacheBust() {
+  if (typeof window === "undefined") return;
+  try {
+    const storedVersion = localStorage.getItem("ai-builder-template-version");
+    if (storedVersion === TEMPLATE_VERSION) return;
+
+    localStorage.removeItem("stackblitz-workspace-files");
+    const savedActiveId = localStorage.getItem("ai-builder-active-project-id");
+    const savedHistory = localStorage.getItem("ai-builder-project-history");
+    if (savedHistory) {
+      try {
+        const history: ProjectHistoryItem[] = JSON.parse(savedHistory);
+        const filtered = history.filter(item => item.id !== "default-veo-gallery");
+        localStorage.setItem("ai-builder-project-history", JSON.stringify(filtered));
+      } catch {
+        localStorage.removeItem("ai-builder-project-history");
+      }
+    }
+    if (!savedActiveId || savedActiveId === "default-veo-gallery") {
+      localStorage.removeItem("ai-builder-active-project-id");
+    }
+    localStorage.setItem("ai-builder-template-version", TEMPLATE_VERSION);
+  } catch (e) {
+    console.error("Failed to run template version cache bust", e);
+  }
+}
+
 export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
   const [files, setFilesState] = useState<Record<string, { code: string }>>(() => {
+    runTemplateCacheBust();
     const savedActiveId = localStorage.getItem("ai-builder-active-project-id") || "default-veo-gallery";
     
     // Try loading files directly associated with this active project ID
@@ -246,7 +265,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     return [
       {
         id: "default-veo-gallery",
-        prompt: "Veo Gallery - Powered by WebContainer AI",
+        prompt: "Welcome - Starter Template",
         timestamp: "2026-07-19T05:00:00.000Z",
         files: INITIAL_FILES
       }

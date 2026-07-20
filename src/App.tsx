@@ -421,8 +421,8 @@ function AppContent() {
             >
               <RefreshCw className="w-3.5 h-3.5" />
             </button>
-            <div className="flex-1 text-center font-bold text-neutral-200 truncate select-none px-2 text-[11px]" title={projectHistory.find(p => p.id === activeProjectId)?.prompt || "Default Veo Gallery"}>
-              {projectHistory.find(p => p.id === activeProjectId)?.prompt || "Default Veo Gallery"}
+            <div className="flex-1 text-center font-bold text-neutral-200 truncate select-none px-2 text-[11px]" title={projectHistory.find(p => p.id === activeProjectId)?.prompt || "Welcome - Starter Template"}>
+              {projectHistory.find(p => p.id === activeProjectId)?.prompt || "Welcome - Starter Template"}
             </div>
             <ChevronDown className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
           </div>
