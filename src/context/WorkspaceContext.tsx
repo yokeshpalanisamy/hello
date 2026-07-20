@@ -101,64 +101,23 @@ const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefin
 const INITIAL_FILES: Record<string, { code: string }> = {
   "/src/App.tsx": {
     code: `import React from "react";
-import { Sparkles, Compass, Cpu, Layers } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans flex flex-col justify-between">
-      {/* Navigation */}
-      <nav className="border-b border-neutral-900 bg-[#0f0f0f]/80 backdrop-blur px-6 py-4 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2 font-bold text-white tracking-tight">
-            <Sparkles className="w-5 h-5 text-indigo-400 fill-indigo-400" />
-            <span>Veo Gallery</span>
-          </div>
-          <div className="flex gap-6 text-sm text-neutral-400">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans flex flex-col items-center justify-center text-center px-6">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-400 text-xs font-semibold mb-8">
+        <Sparkles className="w-3.5 h-3.5" />
+        <span>Starter Template</span>
+      </div>
 
-      {/* Hero Section */}
-      <main className="max-w-5xl mx-auto px-6 py-16 flex-1 flex flex-col items-center justify-center text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-400 text-xs font-semibold mb-6 animate-pulse">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Powered by WebContainer AI v3</span>
-        </div>
-        
-        <h1 className="text-5xl sm:text-6xl font-bold text-white mb-6 tracking-tight max-w-2xl leading-tight">
-          Recreate any interface, <span className="text-indigo-400">instantly</span>
-        </h1>
-        
-        <p className="text-neutral-400 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-          A high-performance sandboxed preview system running directly on the client side inside a virtualized WebContainer stack.
-        </p>
+      <h1 className="text-5xl sm:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
+        Welcome
+      </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8 max-w-4xl">
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Compass className="w-8 h-8 text-indigo-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Zero Latency</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Runs completely inside your browser with locally compiled ES modules.</p>
-          </div>
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Cpu className="w-8 h-8 text-emerald-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Vite Compiler</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Simulates Vite's blazing fast hot module replacement on the fly.</p>
-          </div>
-          <div className="p-6 bg-[#121212] rounded-2xl border border-neutral-900 text-left hover:border-indigo-500/30 transition-all group">
-            <Layers className="w-8 h-8 text-pink-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h3 className="text-white font-semibold mb-2">Tailwind v4</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">Full responsive styling powered by active JIT compilation.</p>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-neutral-900 bg-[#0c0c0c] py-8 px-6 text-center text-xs text-neutral-600">
-        <p>© 2026 Veo 3 Gallery. Running on StackBlitz Client API.</p>
-      </footer>
+      <p className="text-neutral-400 text-lg max-w-md mx-auto leading-relaxed">
+        Your preview session is ready. Start describing what you want to build and watch it come to life here.
+      </p>
     </div>
   );
 }`
@@ -246,7 +205,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     return [
       {
         id: "default-veo-gallery",
-        prompt: "Veo Gallery - Powered by WebContainer AI",
+        prompt: "Welcome - Starter Template",
         timestamp: "2026-07-19T05:00:00.000Z",
         files: INITIAL_FILES
       }
