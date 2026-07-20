@@ -575,15 +575,15 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         }, true);
       });
 
-      window.__COMPILED_MODULES__ = ${modulesJson};
-      window.__RAW_FILES__ = ${rawFilesJson};
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <script type="application/json" id="__compiled_modules__">${modulesJson}</script>
+    <script type="application/json" id="__raw_files__">${rawFilesJson}</script>
     <script type="module">
-      const modules = window.__COMPILED_MODULES__;
-      const rawFiles = window.__RAW_FILES__;
+      const modules = JSON.parse(document.getElementById("__compiled_modules__").textContent);
+      const rawFiles = JSON.parse(document.getElementById("__raw_files__").textContent);
       const cache = {};
       const loadedLibs = {};
 
