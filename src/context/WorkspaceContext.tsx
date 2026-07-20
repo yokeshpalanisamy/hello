@@ -141,7 +141,7 @@ export default function App() {
 
       {/* Footer */}
       <div className="absolute bottom-6 left-0 right-0 text-center text-xs text-slate-500">
-        © 2026 AI Web Builder. Running client-side Sandbox virtual compilation.
+        &copy; 2026 AI Web Builder. Running client-side Sandbox virtual compilation.
       </div>
     </div>
   );
@@ -168,7 +168,7 @@ export default function App() {
 
 // Bump this whenever INITIAL_FILES (the starter template) changes so stale
 // cached copies in localStorage are discarded and the new template is shown.
-const TEMPLATE_VERSION = "welcome-v2";
+const TEMPLATE_VERSION = "welcome-v3";
 
 // Discards stale cached copies of the default starter session when the
 // template changes. Called once from the provider's state initializer (NOT at
