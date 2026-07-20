@@ -100,24 +100,49 @@ const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefin
 
 const INITIAL_FILES: Record<string, { code: string }> = {
   "/src/App.tsx": {
-    code: `import React from "react";
-import { Sparkles } from "lucide-react";
+    code: `import React, { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 export default function App() {
+  const [input, setInput] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      console.log("Build request:", input);
+      setInput("");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans flex flex-col items-center justify-center text-center px-6">
-      <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-400 text-xs font-semibold mb-8">
-        <Sparkles className="w-3.5 h-3.5" />
-        <span>Starter Template</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-900 to-purple-900 text-white font-sans flex flex-col items-center justify-center px-6 py-12">
+      {/* Announcement Badge */}
+      <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900/60 border border-slate-700 rounded-full text-white text-sm font-medium mb-12 backdrop-blur-sm hover:border-slate-600 transition-colors cursor-pointer group">
+        <span className="px-2 py-0.5 bg-blue-600 text-white text-xs font-bold rounded">NEW</span>
+        <span>Lovable apps now work in ChatGPT and Claude</span>
+        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
       </div>
 
-      <h1 className="text-5xl sm:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
-        Welcome
+      {/* Hero Heading */}
+      <h1 className="text-6xl sm:text-7xl font-black text-white mb-12 text-center max-w-2xl leading-tight text-balance">
+        Ready to build, Nantha?
       </h1>
 
-      <p className="text-neutral-400 text-lg max-w-md mx-auto leading-relaxed">
-        Your preview session is ready. Start describing what you want to build and watch it come to life here.
-      </p>
+      {/* Input Area */}
+      <form onSubmit={handleSubmit} className="w-full max-w-lg">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask Lovable to create..."
+          className="w-full px-6 py-4 bg-slate-900/50 border border-slate-700 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all backdrop-blur-sm"
+        />
+      </form>
+
+      {/* Footer */}
+      <div className="absolute bottom-6 left-0 right-0 text-center text-xs text-slate-500">
+        © 2026 AI Web Builder. Running client-side Sandbox virtual compilation.
+      </div>
     </div>
   );
 }`
@@ -143,7 +168,7 @@ export default function App() {
 
 // Bump this whenever INITIAL_FILES (the starter template) changes so stale
 // cached copies in localStorage are discarded and the new template is shown.
-const TEMPLATE_VERSION = "welcome-v1";
+const TEMPLATE_VERSION = "welcome-v2";
 
 if (typeof window !== "undefined") {
   try {
