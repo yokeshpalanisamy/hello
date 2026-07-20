@@ -55,7 +55,7 @@ export async function runLlmRequest(
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config
     });
@@ -190,7 +190,7 @@ export async function runLlmRequest(
   // Standard Fallback to default Gemini
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-3.5-flash",
+    model: "gemini-2.5-flash",
     contents: prompt
   });
   return response.text || "";

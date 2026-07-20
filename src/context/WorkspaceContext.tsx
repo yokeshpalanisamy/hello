@@ -1007,9 +1007,9 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       setSelectedElement(null);
       setLatestPreviewError(null);
       setLogs([]);
-      addLog(`❯ gemini-3.5-flash: Recreating workspace using prompt "${activePrompt}"...`, "command");
+      addLog(`❯ gemini-2.5-flash: Recreating workspace using prompt "${activePrompt}"...`, "command");
     } else {
-      addLog(`❯ gemini-3.5-flash: Editing workspace with prompt "${activePrompt}"...`, "command");
+      addLog(`❯ gemini-2.5-flash: Editing workspace with prompt "${activePrompt}"...`, "command");
     }
     
     try {
@@ -1112,7 +1112,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 
     setIsGenerating(true);
     setError(null);
-    addLog(`❯ gemini-3.5-flash: Editing selected <${selectedElement.tagName.toLowerCase()}> element with prompt: "${instruction}"...`, "command");
+    addLog(`❯ gemini-2.5-flash: Editing selected <${selectedElement.tagName.toLowerCase()}> element with prompt: "${instruction}"...`, "command");
 
     try {
       const mappedFiles: Record<string, string> = {};
