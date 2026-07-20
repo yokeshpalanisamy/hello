@@ -141,6 +141,37 @@ export default function App() {
   }
 };
 
+// Bump this whenever INITIAL_FILES (the starter template) changes so stale
+// cached copies in localStorage are discarded and the new template is shown.
+const TEMPLATE_VERSION = "welcome-v1";
+
+if (typeof window !== "undefined") {
+  try {
+    const storedVersion = localStorage.getItem("ai-builder-template-version");
+    if (storedVersion !== TEMPLATE_VERSION) {
+      // Reset any cached copies of the default starter session.
+      localStorage.removeItem("stackblitz-workspace-files");
+      const savedActiveId = localStorage.getItem("ai-builder-active-project-id");
+      const savedHistory = localStorage.getItem("ai-builder-project-history");
+      if (savedHistory) {
+        try {
+          const history: ProjectHistoryItem[] = JSON.parse(savedHistory);
+          const filtered = history.filter(item => item.id !== "default-veo-gallery");
+          localStorage.setItem("ai-builder-project-history", JSON.stringify(filtered));
+        } catch {
+          localStorage.removeItem("ai-builder-project-history");
+        }
+      }
+      if (!savedActiveId || savedActiveId === "default-veo-gallery") {
+        localStorage.removeItem("ai-builder-active-project-id");
+      }
+      localStorage.setItem("ai-builder-template-version", TEMPLATE_VERSION);
+    }
+  } catch (e) {
+    console.error("Failed to run template version cache bust", e);
+  }
+}
+
 export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
   const [files, setFilesState] = useState<Record<string, { code: string }>>(() => {
     const savedActiveId = localStorage.getItem("ai-builder-active-project-id") || "default-veo-gallery";
